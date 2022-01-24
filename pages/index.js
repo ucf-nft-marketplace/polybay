@@ -76,7 +76,7 @@ export default function Home() {
         // this should return a new array of NFTs (one less) due to sale
         loadNFTs()
     }
-
+    
     if (loadingState == 'loaded' && !nfts.length) return (
         <h1 className="px-20 py-10 text-3xl">No items in the marketplace</h1>)
     return (
