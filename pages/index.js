@@ -49,6 +49,7 @@ export default function Home() {
                 name: meta.data.name,
                 description: meta.data.description,
             }
+            return item
         }))
         // set new updated items array
         setNfts(items)
@@ -77,8 +78,7 @@ export default function Home() {
         loadNFTs()
     }
     
-    if (loadingState == 'loaded' && !nfts.length) return (
-        <h1 className="px-20 py-10 text-3xl">No items in the marketplace</h1>)
+    if (loadingState == 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in the marketplace</h1>)
     return (
         <div className="flex justify-center">
             <div className="px-4" style={{ maxWidth: '1600px' }}>
