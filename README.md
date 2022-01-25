@@ -2,14 +2,22 @@
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
 
-Try running some of the following tasks:
+To run locally
 
+create a local network with different accounts
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help Erik 
+npx hardhat node 
 ```
+
+in a different terminal window, this will deploy the contracts
+```shell
+npx hardhat run scripts/deploy.js --network localhost
+```
+
+to run the frontend app, this will setup a webserver on localhost:3000
+```shell
+npm run dev
+```
+
+
+
