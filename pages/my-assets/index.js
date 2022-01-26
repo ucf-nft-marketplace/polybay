@@ -35,6 +35,7 @@ export default function MyAssets() {
             const meta = await axios.get(tokenUri)
             let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
             let item = {
+                name: meta.data.name,
                 price,
                 tokenId: i.tokenId.toNumber(),
                 seller: i.seller,
@@ -46,17 +47,26 @@ export default function MyAssets() {
         setNfts(items)
         setLoadingState('loaded')
     }
-    if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No assets owned</h1>)
+    if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">no assets owned</h1>)
     return (
         <div className="flex justify-center">
             <div className="p-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                <h2 className="text-2xl py-2 mt-2">my assets</h2>
+                <div className="nft-grid">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                <img src={nft.image} className="rounded" />
-                                <div className="p-4 bg-black">
-                                    <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                            <div key={i} className="nft-item group">
+                                <img src={nft.image} className="h-72 w-full"/>
+                                <div className="flex h-20 p-3.5 border rounded-xl rounded-t-none">
+                                    <div className="w-4/5">
+                                        <p className="text">{nft.name}</p>
+                                        <p className="text-xl font-semibold">{nft.price} ETH</p>
+                                    </div>
+                                    <div className="w-1/5 self-end mr-2">
+                                        <button className="text-sm hidden focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 group-hover:block">
+                                            details
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))
