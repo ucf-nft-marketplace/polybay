@@ -77,36 +77,51 @@ export default function CreateItem() {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-1/2 flex flex-col pb-12">
-        <input 
-          placeholder="Asset Name"
-          className="mt-8 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
-        />
-        <textarea
-          placeholder="Asset Description"
-          className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
-        />
-        <input
-          placeholder="Asset Price in Eth"
-          className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
-        />
-        <input
-          type="file"
-          name="Asset"
-          className="my-4"
-          onChange={onChange}
-        />
-        {
-          fileUrl && (
-            <img className="rounded mt-4" width="350" src={fileUrl} />
-          )
-        }
-        <button onClick={createMarket} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-          Create Digital Asset
+    <div className="flex justify-center font-body">
+      <div className="mt-8 mb-8 w-1/2 flex flex-col pb-12">
+        <h1 className="text-2xl"> create new item </h1>
+        <h3 className="text-md text-gray-300"> file types supported: gif, jpg, png, svg </h3>
+        <div className="mt-7">
+         <input
+            type="file"
+            name="NFT"
+            className="form-inputs"
+            onChange={onChange}
+          />
+        </div>
+        <div className="place-items-center block grid">
+          {
+            fileUrl && (
+              <img className="rounded mt-4" width="500" src={fileUrl} />
+            )
+          }
+        </div> 
+        <div className="mt-7">
+          <label className="tracking-wide"> name * </label>
+          <input 
+            placeholder="NFT name"
+            className="form-inputs"
+            onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
+          />
+        </div>
+        <div className="mt-7">
+          <label className="tracking-wide"> description </label>
+          <textarea
+            placeholder="NFT description"
+            className="form-inputs"
+            onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
+          />
+        </div>
+        <div className="mt-7">
+          <label className="tracking-wide"> price </label>
+          <input
+            placeholder="NFT price in ETH"
+            className="form-inputs"
+            onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+          />
+        </div> 
+        <button onClick={createMarket} className="btn-primary mt-7 p-4">
+          create NFT
         </button>
       </div>
     </div>

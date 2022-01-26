@@ -5,6 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      body: [
+        'Courier New',
+      ],
+    },
   },
   plugins: [],
 }
