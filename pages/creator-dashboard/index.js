@@ -37,6 +37,7 @@ export default function CreatorDashboard() {
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
+        name: meta.data.name,
         price,
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
@@ -56,14 +57,22 @@ export default function CreatorDashboard() {
   return (
     <div>
       <div className="p-4">
-        <h2 className="text-2xl py-2">Items Created</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+        <h2 className="text-2xl py-2">items created</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} className="rounded" />
-                <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+              <div key={i} className="transition ease-in-out hover:-translate-y-1 group inline-block h-96 w-full rounded-b-none rounded-xl overflow-hidden">
+                <img src={nft.image} className="h-72 w-full" />
+                <div className="flex h-20 p-3.5 border rounded-xl rounded-t-none">
+                  <div className="w-4/5">
+                    <p className="text">{nft.name}</p>
+                    <p className="text-xl font-semibold">{nft.price} ETH</p>
+                  </div>
+                  <div className="w-1/5 self-end mr-2">
+                    <button className="text-sm hidden focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 group-hover:block">
+                      details
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -74,16 +83,24 @@ export default function CreatorDashboard() {
         {
           Boolean(sold.length) && (
             <div>
-              <h2 className="text-2xl py-2">Items sold</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+              <h2 className="text-2xl py-2">items sold</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 pt-4">
                 {
                   sold.map((nft, i) => (
-                    <div key={i} className="border shadow rounded-xl overflow-hidden">
-                      <img src={nft.image} className="rounded" />
-                      <div className="p-4 bg-black">
-                        <p className="text-2xl font-bold text-white">Price - {nft.price} Eth</p>
+                    <div key={i} className="transition ease-in-out hover:-translate-y-1 group inline-block h-96 w-full rounded-b-none rounded-xl overflow-hidden">
+                    <img src={nft.image} className="h-72 w-full" />
+                    <div className="flex h-20 p-3.5 border rounded-xl rounded-t-none">
+                      <div className="w-4/5">
+                        <p className="text">{nft.name}</p>
+                        <p className="text-xl font-semibold">{nft.price} ETH</p>
+                      </div>
+                      <div className="w-1/5 self-end mr-2">
+                        <button className="text-sm hidden focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 group-hover:block">
+                          details
+                        </button>
                       </div>
                     </div>
+                  </div>
                   ))
                 }
               </div>

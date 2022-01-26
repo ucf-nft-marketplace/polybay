@@ -6,12 +6,12 @@ export default function Navbar() {
       <nav className='flex items-center border-b border-gray-400 flex-wrap p-3'>
         <Link href='/'>
           <a className='inline-flex items-center p-2 mr-4 '>
-            <span className='text-xl font-body text-white uppercase tracking-wide'>
+            <span className='text-xl text-white uppercase tracking-wide'>
               Polybay
             </span>
           </a>
         </Link>
-        <div className='hidden w-full font-body lg:inline-flex lg:flex-grow lg:w-auto'>
+        <div className='hidden w-full lg:inline-flex lg:flex-grow lg:w-auto'>
           <div className='lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto'>
             <Link href="/create-item">
               <a className='header-links'>

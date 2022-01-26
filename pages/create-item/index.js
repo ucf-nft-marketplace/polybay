@@ -77,7 +77,7 @@ export default function CreateItem() {
   }
 
   return (
-    <div className="flex justify-center font-body">
+    <div className="flex justify-center">
       <div className="mt-8 mb-8 w-1/2 flex flex-col pb-12">
         <h1 className="text-2xl"> create new item </h1>
         <h3 className="text-md text-gray-300"> file types supported: gif, jpg, png, svg </h3>
