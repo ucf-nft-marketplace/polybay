@@ -81,21 +81,21 @@ export default function Home() {
     if (loadingState == 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">No items in the marketplace</h1>)
     return (
         <div className="flex justify-center">
-            <div className="px-4" style={{ maxWidth: '1600px' }}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+            <div className="px-4">
+                <h2 className="text-2xl py-2 mt-2">all NFT's for sale</h2>
+                <div className="nft-grid">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="border shadow rounded-xl overflow-hidden">
-                                <img src={nft.image} />
-                                <div className="p-4">
-                                    <p style={{ height: '64px' }} className="text-2xl front-semibold">{nft.name}</p>
-                                    <div style={{ height: '70px', overflow: 'hidden' }}>
-                                        <p className="text-gray-400">{nft.description}</p>
+                            <div key={i} className="nft-item">
+                                <img src={nft.image} className="h-72 w-full"/>
+                                <div className="flex h-20 p-3.5 border rounded-xl rounded-t-none">
+                                    <div className="w-3/4">
+                                    <p className="text">{nft.name}</p>
+                                    <p className="text-xl font-semibold">{nft.price} ETH</p>
                                     </div>
-                                </div>
-                                <div className="p-4 bg-black">
-                                    <p className="text=2xl mb-4 font-bold text-white">{nft.price} Matic</p>
-                                    <button className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded" onClick={() => buyNft(nft)}>Buy</button>
+                                    <div className="w-1/5 self-end justify-right">
+                                        <button className="text-purple-400 hover:text-purple-700 focus:text-purple-700 outline-0 font-bold bg-transparent text-lg h-7 w-16 p-0" onClick={() => buyNft(nft)}>Buy</button>
+                                    </div>
                                 </div>
                             </div>
                       ))
