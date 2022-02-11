@@ -7,10 +7,16 @@ import {
   nftmarketaddress, nftaddress
 } from '../../config'
 
+import {
+  provider, signer
+} from '../../components/Navigation'
+
 import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
 import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function CreatorDashboard() {
+  if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
+
   // creator - created nfts
   const [nfts, setNfts] = useState([])
   // creator - sold nfts
@@ -21,14 +27,9 @@ export default function CreatorDashboard() {
   }, [])
 
   async function loadNFTs() {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-
     const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
-    
+
     // returns the items that match the address of the user received from marketcontract
     const data = await marketContract.fetchItemsCreated()
 
@@ -51,7 +52,7 @@ export default function CreatorDashboard() {
     const soldItems = items.filter(i => i.sold)
     setSold(soldItems)
     setNfts(items)
-    setLoadingState('loaded') 
+    setLoadingState('loaded')
   }
   if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">no assets created</h1>)
   return (

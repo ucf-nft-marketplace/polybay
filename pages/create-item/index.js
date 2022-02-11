@@ -14,7 +14,13 @@ import {
 import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
 
+import {
+  provider, signer
+} from '../../components/Navigation'
+
 export default function CreateItem() {
+  if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
+
   const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
@@ -54,8 +60,6 @@ export default function CreateItem() {
   async function createSale(url) {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)    
-    const signer = provider.getSigner()
 
     /* next, create the item */
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
