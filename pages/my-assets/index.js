@@ -8,10 +8,16 @@ import {
     nftmarketaddress, nftaddress
 } from '../../config'
 
+import {
+    provider, signer
+  } from '../../components/Navigation'
+
 import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
 import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function MyAssets() {
+    if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
+
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
     useEffect(() => {
@@ -22,9 +28,6 @@ export default function MyAssets() {
             network: "mainnet",
             cacheProvider: true,
         })
-        const connection = await web3Modal.connect()
-        const provider = new ethers.providers.Web3Provider(connection)
-        const signer = provider.getSigner()
 
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
