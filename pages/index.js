@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
+import { Dialog } from '@headlessui/react'
 
 import {
     nftaddress, nftmarketaddress
@@ -18,6 +19,9 @@ export default function Home() {
     // used for show/hiding UI
     const [nfts, setNfts] = useState([])
 
+    const [isShown, setIsShown] = useState(false)
+    const [isKey, setKey] = useState(null)
+
     // [<variable>,<function to set variable>] default state during app startup: 'not loaded'
     const [loadingState, setLoadingState] = useState('not-loaded')
 
@@ -25,9 +29,27 @@ export default function Home() {
         loadNFTs()
     }, [])
 
+    function onEnter(key) {
+        setIsShown(true)
+        setKey(key)
+      }
+    
+    function onLeave() {
+    setIsShown(false)
+    setKey(null)
+    }
+
+    // checks current key with selected key, so that the correct nft is displayed 
+    function checkKey(isShown, key, i) {
+    if ((isShown) && (key === i) ){
+        return true
+    }
+    return false
+    }
+
     // where we call smart contact and fetch NFTs, function will be called when app/component loads via the useEffect hook
     async function loadNFTs() {
-        const provider = new ethers.providers.JsonRpcProvider()
+        const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
         // ref to NFT contract
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
@@ -86,7 +108,8 @@ export default function Home() {
                 <div className="nft-grid">
                     {
                         nfts.map((nft, i) => (
-                            <div key={i} className="nft-item">
+                            <>
+                            <div key={i} className="nft-item group">
                                 <img src={nft.image} className="h-72 w-full"/>
                                 <div className="flex h-20 p-3.5 border rounded-xl rounded-t-none">
                                     <div className="w-3/4">
@@ -94,10 +117,41 @@ export default function Home() {
                                     <p className="text-xl font-semibold">{nft.price} ETH</p>
                                     </div>
                                     <div className="w-1/5 self-end justify-right">
+                                        <button onClick={() => onEnter(i)} className="text-sm hidden focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 group-hover:block">
+                                            details
+                                        </button>
                                         <button className="text-purple-400 hover:text-purple-700 focus:text-purple-700 outline-0 font-bold bg-transparent text-lg h-7 w-16 p-0" onClick={() => buyNft(nft)}>Buy</button>
                                     </div>
                                 </div>
                             </div>
+                            <Dialog className="fixed inset-0 z-10 overflow-y-auto" open={checkKey(isShown, isKey, i)} onClose={() => onLeave()} >
+                                <div className="min-h-screen px-4 text-center">
+                                    {/* handle clicking outside of dialog */}
+                                    <Dialog.Overlay className="fixed inset-0" />
+                                    {/* centers dialog to screen */}
+                                    <span className="inline-block h-screen align-middle" aria-hidden="true">
+                                    &#8203;
+                                    </span>
+                                    <div className="inline-block w-full max-w-md p-6 my-8 border overflow-hidden text-left align-middle transform bg-black rounded-2xl">
+                                        <Dialog.Title className="text-lg font-medium leading-6 text-white">
+                                        {nft.name}
+                                        </Dialog.Title>
+                                        <div className="mt-2 text-white">
+                                        <img src={nft.image}/>
+                                        <div className="mt-2 text-sm">
+                                            <p> {nft.description} </p>
+                                        </div>
+                                        <div className="mt-2 text-sm grid grid-cols-2">
+                                            <p className="font-light"> contract address </p>
+                                            <a className="font-medium text-purple-300 text-right" href="https://mumbai.polygonscan.com/address/0xc9ad4e81bbcff8b642ed55adb5da7f383442e351">0xc9ad4e81...3442e351</a>
+                                            <p className="font-light"> token ID </p>
+                                            <p className="font-medium text-gray-400 text-right"> {nft.tokenId} </p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Dialog>
+                            </>
                       ))
                     }
                 </div>
