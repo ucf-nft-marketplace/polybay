@@ -40,9 +40,12 @@ export default function CreateItem() {
       console.log('Error uploading file: ', error)
     }  
   }
+
+
   async function createMarket() {
     const { name, description, price } = formInput
     if (!name || !description || !price || !fileUrl) return
+    
     /* first, upload to IPFS */
     const data = JSON.stringify({
       name, description, image: fileUrl
@@ -121,7 +124,13 @@ export default function CreateItem() {
           <input
             placeholder="NFT price in ETH"
             className="form-inputs"
+            pattern="[+-]?\d+(?:[.,]\d+)?"
             onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
+            onKeyPress={(event) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
           />
         </div> 
         <button onClick={createMarket} className="btn-primary mt-7 p-4">

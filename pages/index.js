@@ -49,7 +49,8 @@ export default function Home() {
 
     // where we call smart contact and fetch NFTs, function will be called when app/component loads via the useEffect hook
     async function loadNFTs() {
-        const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
+        //const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
+        const provider = new ethers.providers.JsonRpcProvider()
         // ref to NFT contract
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
@@ -92,12 +93,19 @@ export default function Home() {
         // gets price of nft in a format we can use
         const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
 
-        const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
-            value: price
-        })
-        await transaction.wait()
-        // this should return a new array of NFTs (one less) due to sale
-        loadNFTs()
+        try {
+            const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
+                value: price
+            })
+
+
+            await transaction.wait()
+            // this should return a new array of NFTs (one less) due to sale
+            loadNFTs()
+        }
+        catch (error) {
+
+        }
     }
     
     if (loadingState == 'loaded' && !nfts.length) return (<h1 className="px-20 py-10 text-3xl">no NFT's currently for sale</h1>)
