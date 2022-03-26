@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react'
-import { RetrieveData, ClearData } from '../web3Modal';
+import { RetrieveData, ClearData } from '../Web3Modal';
 
 export let provider = null;
 export let signer = null;
