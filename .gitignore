@@ -45,3 +45,4 @@ yarn.lock
 cache
 artifacts
 .secret
+config.js

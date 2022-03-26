@@ -17,8 +17,6 @@ import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
 import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function MyAssets() {
-    if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
-
     const [nfts, setNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')
 
@@ -26,6 +24,7 @@ export default function MyAssets() {
     const [isKey, setKey] = useState(null)
 
     useEffect(() => {
+        if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
         loadNFTs()
     }, [])
 
