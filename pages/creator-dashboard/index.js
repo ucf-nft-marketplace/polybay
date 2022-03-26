@@ -15,7 +15,6 @@ import Market from '../../artifacts/contracts/Market.sol/NFTMarket.json'
 import NFT from '../../artifacts/contracts/NFT.sol/NFT.json'
 
 export default function CreatorDashboard() {
-  if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
 
   // creator - created nfts
   const [nfts, setNfts] = useState([])
@@ -27,6 +26,7 @@ export default function CreatorDashboard() {
   const [isKey, setKey] = useState(null)
 
   useEffect(() => {
+    if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
     loadNFTs()
   }, [])
 

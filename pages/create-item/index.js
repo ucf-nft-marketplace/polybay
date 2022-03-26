@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
@@ -19,12 +19,14 @@ import {
 } from '../../components/Navigation'
 
 export default function CreateItem() {
-  if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
-
   const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
   const router = useRouter()
 
+  useEffect(() => {
+    if (provider === null) return (<p className="py-10 px-20 text-3xl">please connect first</p>)
+  }, [])
+  
   async function onChange(e) {
     const file = e.target.files[0]
     try {
@@ -61,9 +63,6 @@ export default function CreateItem() {
   }
 
   async function createSale(url) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-
     /* next, create the item */
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
     let transaction = await contract.createToken(url)

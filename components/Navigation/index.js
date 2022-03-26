@@ -1,54 +1,35 @@
 import Link from 'next/link';
-import Web3Modal from "web3modal"
-import { ethers } from 'ethers'
-import { useState } from 'react'
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { useEffect, useState } from 'react'
+import { RetrieveData, ClearData } from '../Web3Modal';
 
 export let provider = null;
 export let signer = null;
 
-let web3Modal;
-
 export default function Navbar() {
+    
   const [connectionState, setConnectionState] = useState('not-connected')
 
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        rpc: {
-          137: "https://rpc-mainnet.maticvigil.com/",
-        },
-        network: "matic",
-      },
-    },
-  };
-
-  async function retrieveData() {
-    web3Modal = new Web3Modal({
-      network: 'mainnet', // optional
-      cacheProvider: false,
-      providerOptions, // required
-      disableInjectedProvider: false,
-      theme: "dark",
-    })
-
-    let connection 
-
-    // catch closing modal error, or canceling account connection
-    try {
-      connection = await web3Modal.connect()
-    } catch(e) {
-      return
+  // if there's a current account connected via web3, retrieve data from it
+  useEffect(async function() {
+    if (window.localStorage.getItem("WEB3_CONNECT_CACHED_PROVIDER") != null) {
+        const response = await RetrieveData()
+        provider = response[0]
+        signer = response[1]
+        console.log('fs')
+        setConnectionState('connected')
     }
-  
-    provider = new ethers.providers.Web3Provider(connection)
-    signer = provider.getSigner()
-    setConnectionState('connected')
-  }
+  },[]);
 
+  async function setWeb3(){
+    const response = await RetrieveData()
+    provider = response[0]
+    signer = response[1]
+    setConnectionState('connected')
+    location.reload()
+  }
+  
   async function disconnect() {
-    await web3Modal.clearCachedProvider()
+    await ClearData()
     setConnectionState('not-connected')
     location.reload()
   }
@@ -64,7 +45,7 @@ export default function Navbar() {
       </Link>
       <div className='hidden w-full lg:inline-flex lg:flex-grow lg:w-auto'>
         <div className='lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto'>
-          <button className='btn-primary' onClick={retrieveData}>
+          <button className='btn-primary' onClick={setWeb3}>
             connect
           </button>
         </div>
