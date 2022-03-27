@@ -45,7 +45,7 @@ export default function MyAssets() {
     }
     return false
     }
-    
+
     async function loadNFTs() {
         const web3Modal = new Web3Modal({
             network: "mainnet",
@@ -68,12 +68,25 @@ export default function MyAssets() {
                 seller: i.seller,
                 owner: i.owner,
                 image: meta.data.image,
+                nftContract: i.nftContract,
             }
             return item
         }))
         setNfts(items)
         setLoadingState('loaded')
     }
+
+    async function sellNFT(nft) {
+        const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+
+        const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
+        const transaction = await contract.resellToken(nftaddress, nft.tokenId, {
+            value: price
+        })
+        await transaction.wait()
+        loadNFTs()
+    }
+
     if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">no assets owned</h1>)
     return (
         <div className="flex justify-center">
@@ -94,6 +107,7 @@ export default function MyAssets() {
                                         <button onClick={() => onEnter(i)} className="text-sm hidden focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-75 group-hover:block">
                                             details
                                         </button>
+                                        <button className="text-purple-400 hover:text-purple-700 focus:text-purple-700 outline-0 font-bold bg-transparent text-lg h-7 w-16 p-0" onClick={() => sellNFT(nft)}>Sell</button>
                                     </div>
                                 </div>
                             </div>
