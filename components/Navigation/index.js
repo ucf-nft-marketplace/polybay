@@ -15,7 +15,6 @@ export default function Navbar() {
         const response = await RetrieveData()
         provider = response[0]
         signer = response[1]
-        console.log('fs')
         setConnectionState('connected')
     }
   },[]);

@@ -68,6 +68,7 @@ export default function CreatorDashboard() {
         owner: i.owner,
         sold: i.sold,
         image: meta.data.image,
+        nftContract: i.nftContract,
       }
       return item
     }))
