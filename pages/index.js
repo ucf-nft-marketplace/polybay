@@ -50,8 +50,8 @@ export default function Home() {
     // where we call smart contact and fetch NFTs, function will be called when app/component loads via the useEffect hook
     async function loadNFTs() {
         // use the commented line below to use local network for the backend.
-        // const provider = new ethers.providers.JsonRpcProvider()
-        const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
+        const provider = new ethers.providers.JsonRpcProvider()
+        //const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
         // ref to NFT contract
         const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
         const marketContract = new ethers.Contract(nftmarketaddress, Market.abi, provider)
