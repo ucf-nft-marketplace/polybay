@@ -68,6 +68,7 @@ export default function CreatorDashboard() {
         owner: i.owner,
         sold: i.sold,
         image: meta.data.image,
+        nftContract: i.nftContract
       }
       return item
     }))
@@ -119,7 +120,9 @@ export default function CreatorDashboard() {
                           </div>
                           <div className="mt-2 text-sm grid grid-cols-2">
                               <p className="font-light"> contract address </p>
-                              <a className="font-medium text-purple-300 text-right" href="https://mumbai.polygonscan.com/address/0xc9ad4e81bbcff8b642ed55adb5da7f383442e351">0xc9ad4e81...3442e351</a>
+                              <a className="font-medium text-purple-300 text-right" href={"https://mumbai.polygonscan.com/address/" + nft.nftContract}>{nft.nftContract.slice(0,9)}...{nft.nftContract.slice(-9,-1)}</a>
+                              <p className="font-light"> seller address </p>
+                              <a className="font-medium text-purple-300 text-right" href={"https://mumbai.polygonscan.com/address/" + nft.seller}>{nft.seller.slice(0,9)}...{nft.seller.slice(-9,-1)}</a>
                               <p className="font-light"> token ID </p>
                               <p className="font-medium text-gray-400 text-right"> {nft.tokenId} </p>
                           </div>
