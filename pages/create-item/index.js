@@ -18,6 +18,9 @@ import {
   provider, signer
 } from '../../components/Navigation'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
@@ -29,6 +32,7 @@ export default function CreateItem() {
   
   async function onChange(e) {
     const file = e.target.files[0]
+    
     try {
       const added = await client.add(
         file,
@@ -46,7 +50,12 @@ export default function CreateItem() {
 
   async function createMarket() {
     const { name, description, price } = formInput
-    if (!name || !description || !price || !fileUrl) return
+    if (!name || !description || !price || !fileUrl) {
+      toast.error("Missing Input Field!!!!! ", {
+        position: toast.POSITION.BOTTOM_LEFT
+      });
+      return
+    }
     
     /* first, upload to IPFS */
     const data = JSON.stringify({
@@ -94,6 +103,7 @@ export default function CreateItem() {
             name="NFT"
             className="form-inputs"
             onChange={onChange}
+            accept=".jpeg, .gif, .png, .apng, .svg, .bmp"
           />
         </div>
         <div className="place-items-center block grid">
@@ -136,6 +146,8 @@ export default function CreateItem() {
         <button onClick={createMarket} className="btn-primary mt-7 p-4">
           create NFT
         </button>
+
+        <ToastContainer />
       </div>
     </div>
   )
