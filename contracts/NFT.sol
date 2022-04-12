@@ -18,7 +18,7 @@ contract NFT is ERC721URIStorage {
     address contractAddress; // Address of the marketplace contract
 
     // We will pass the address of our marketplace contract to this constructor 
-    constructor(address marketplaceAddress) ERC721("Metaverse Tokens", "METT") {
+    constructor(address marketplaceAddress) ERC721("UCF Knights", "UCFK") {
         contractAddress = marketplaceAddress;
     }
 
